@@ -65,6 +65,12 @@ ROCRpred <- prediction(res,data$is_promoted)
 ROCRpref <- performance(ROCRpred,"tpr","fpr")
 plot(ROCRpref,colorize=TRUE,print.cutoffs.at=seq(0.2,by=0.3))
 
+#prediction
+promotion_ts <- read.csv("promotion_ts_N.csv")
+Pred <- predict(model7, newdata = promotion_ts, type= "response")
+promotion_ts$LR_is_promoted <- Pred
+promotion_ts$LR_is_promoted <- ifelse(promotion_ts$LR_is_promoted >0.3,1,0)
+table(promotion_ts$LR_is_promoted)
 ##__________________DECISION TREES___________________##
 library(rpart)
 library(rattle)
